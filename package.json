@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/lunavod/windows-cursor-pos/issues"
   },
-  "homepage": "https://github.com/lunavod/windows-cursor-pos#readme"
+  "homepage": "https://github.com/lunavod/windows-cursor-pos#readme",
+  "dependencies": {
+    "node-addon-api": "^1.7.1"
+  }
 }

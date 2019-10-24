@@ -1,2 +1,2 @@
-const cursorPos = require('./build/Release/addon')
-module.exports = cursorPos
+const getCursorPos = require('./build/Release/addon')
+module.exports = getCursorPos

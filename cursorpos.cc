@@ -1,26 +1,24 @@
-#include <node.h>
 #include <windows.h>
+#include <napi.h>
 
-void GetCursorCoordinates(const v8::FunctionCallbackInfo<v8::Value>& args) {
-	v8::Isolate* isolate = args.GetIsolate();
-
+Napi::Object WinGetCursorPos(const Napi::CallbackInfo& info) {
+	Napi::Env env = info.Env();
+	Napi::Object obj = Napi::Object::New(env);
 	POINT p;
 	if (GetCursorPos(&p))
 	{
-		auto obj = v8::Object::New(isolate);
+		auto x = Napi::Number::New(env, p.x);
+		auto y = Napi::Number::New(env, p.y);
 
-		auto x = v8::Number::New(isolate, p.x);
-		auto y = v8::Number::New(isolate, p.y);
-
-		obj->Set(v8::String::NewFromUtf8(isolate, "x"), x);
-		obj->Set(v8::String::NewFromUtf8(isolate, "y"), y);
-
-    	args.GetReturnValue().Set(obj);
+		obj.Set(Napi::String::New(env, "x"), x);
+		obj.Set(Napi::String::New(env, "y"), y);
 	}
+
+  return obj;
 }
 
-void Initialize(v8::Local<v8::Object> exports) {
-	NODE_SET_METHOD(exports, "get", GetCursorCoordinates);
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+	return Napi::Function::New(env, WinGetCursorPos, "getCursorPos");
 }
 
-NODE_MODULE(module_name, Initialize)
+NODE_API_MODULE(addon, Init)
